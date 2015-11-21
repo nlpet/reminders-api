@@ -22,7 +22,7 @@ class Reminders(Resource):
             json[next_id] = {'note0': args['reminder']}
             dump_json(json)
 
-            return {'message': 'Added {}'.format(next_id)}
+            return {next_id: {'note0': args['reminder']}}
         else:
             return {'error': 'Unsupported argument'}
 
@@ -38,9 +38,10 @@ class Reminder(Resource):
     def delete(self, rem_id):
         json = load_json()
         if rem_id in json.keys():
+            deleted = json[rem_id]
             del json[rem_id]
             dump_json(json)
-            return {'message': 'Deleted {}'.format(rem_id)}
+            return {rem_id: deleted}
         else:
             return {'error': '{} does not exist'.format(rem_id)}
 
@@ -55,7 +56,7 @@ class Reminder(Resource):
                 json[rem_id][note_id] = args['note']
                 dump_json(json)
 
-                return {'message': 'Added {}'.format(note_id)}
+                return {note_id: args['note']}
             else:
                 return {'error': '{} does not exist'.format(rem_id)}
         else:
